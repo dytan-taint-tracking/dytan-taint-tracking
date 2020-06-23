@@ -1,0 +1,27 @@
+<dytan-config>
+	<sources>
+		<taint-marks>32</taint-marks>
+		<source type="path">
+			<file>sample/wc/a.txt</file>
+			<file>sample/wc/b.txt</file>
+			<granularity>PerRead</granularity>
+		</source>
+	</sources>
+	<propagation>
+		<dataflow>true</dataflow>
+		<controlflow>true</controlflow>
+	</propagation>
+	<sinks>
+		<sink>
+			<id>36</id>
+			<location type="instruction">
+				<instruction>ret</instruction>
+				<instruction>jmp</instruction>
+			</location>
+			<action>validate-absence</action>
+		</sink>
+	</sinks>
+	<profiling>
+		<markop>false</markop>
+	</profiling>
+</dytan-config>

@@ -1,0 +1,153 @@
+##############################################################
+#
+# This file includes all the test targets as well as all the
+# non-default build rules and test recipes.
+#
+##############################################################
+
+
+##############################################################
+#
+# Test targets
+#
+##############################################################
+
+###### Place all generic definitions here ######
+
+# This defines tests which run tools of the same name.  This is simply for convenience to avoid
+# defining the test name twice (once in TOOL_ROOTS and again in TEST_ROOTS).
+# Tests defined here should not be defined in TOOL_ROOTS and TEST_ROOTS.
+TEST_TOOL_ROOTS := dytan
+
+# This defines the tests to be run that were not already defined in TEST_TOOL_ROOTS.
+TEST_ROOTS :=
+
+# This defines a list of tests that should run in the "short" sanity. Tests in this list must also
+# appear either in the TEST_TOOL_ROOTS or the TEST_ROOTS list.
+# If the entire directory should be tested in sanity, assign TEST_TOOL_ROOTS and TEST_ROOTS to the
+# SANITY_SUBSET variable in the tests section below (see example in makefile.rules.tmpl).
+SANITY_SUBSET :=
+
+# This defines the tools which will be run during the the tests, and were not already defined in
+# TEST_TOOL_ROOTS.
+TOOL_ROOTS :=
+
+# This defines the static analysis tools which will be run during the the tests. They should not
+# be defined in TEST_TOOL_ROOTS. If a test with the same name exists, it should be defined in
+# TEST_ROOTS.
+# Note: Static analysis tools are in fact executables linked with the Pin Static Analysis Library.
+# This library provides a subset of the Pin APIs which allows the tool to perform static analysis
+# of an application or dll. Pin itself is not used when this tool runs.
+SA_TOOL_ROOTS :=
+
+# This defines all the applications that will be run during the tests.
+APP_ROOTS :=
+
+# This defines any additional object files that need to be compiled.
+OBJECT_ROOTS :=
+
+# This defines any additional dlls (shared objects), other than the pintools, that need to be compiled.
+DLL_ROOTS :=
+
+# This defines any static libraries (archives), that need to be built.
+LIB_ROOTS :=
+
+
+##############################################################
+#
+# Test recipes
+#
+##############################################################
+
+# This section contains recipes for tests other than the default.
+# See makefile.default.rules for the default test rules.
+# All tests in this section should adhere to the naming convention: <testname>.test
+
+
+##############################################################
+#
+# Build rules
+#
+##############################################################
+
+# This section contains the build rules for all binaries that have special build rules.
+# See makefile.default.rules for the default build rules.
+
+TOOL_CXXFLAGS += -I/usr/include/libxml2
+TOOL_LIBS += -L/usr/lib -lxml2
+
+# Build the intermediate object file.
+$(OBJDIR)dytan$(OBJ_SUFFIX): dytan.cpp 
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)instrument_opcodes$(OBJ_SUFFIX): instrument_opcodes.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)config_parser$(OBJ_SUFFIX): config_parser.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)syscall_monitor$(OBJ_SUFFIX): syscall_monitor.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)taint_source_path$(OBJ_SUFFIX): taint_source_path.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)monitor_path$(OBJ_SUFFIX): monitor_path.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)taint_source_network$(OBJ_SUFFIX): taint_source_network.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)monitor_network$(OBJ_SUFFIX): monitor_network.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)taint_generator$(OBJ_SUFFIX): taint_generator.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)taint_source_func$(OBJ_SUFFIX): taint_source_func.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)convert$(OBJ_SUFFIX): convert.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)bitset$(OBJ_SUFFIX): bitset.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)replace_functions$(OBJ_SUFFIX): replace_functions.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)taint_func_args$(OBJ_SUFFIX): taint_func_args.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)routine_graph$(OBJ_SUFFIX): routine_graph.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)basic_block$(OBJ_SUFFIX): basic_block.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)taint_handling$(OBJ_SUFFIX): taint_handling.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the intermediate object file.
+$(OBJDIR)syscall_functions$(OBJ_SUFFIX): syscall_functions.cpp
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+# Build the tool as a dll (shared object).
+$(OBJDIR)dytan$(PINTOOL_SUFFIX): $(OBJDIR)dytan$(OBJ_SUFFIX) $(OBJDIR)instrument_opcodes$(OBJ_SUFFIX) $(OBJDIR)config_parser$(OBJ_SUFFIX) $(OBJDIR)syscall_monitor$(OBJ_SUFFIX) $(OBJDIR)taint_source_path$(OBJ_SUFFIX) $(OBJDIR)monitor_path$(OBJ_SUFFIX) $(OBJDIR)taint_source_network$(OBJ_SUFFIX) $(OBJDIR)monitor_network$(OBJ_SUFFIX) $(OBJDIR)taint_generator$(OBJ_SUFFIX) $(OBJDIR)taint_source_func$(OBJ_SUFFIX) $(OBJDIR)convert$(OBJ_SUFFIX) $(OBJDIR)bitset$(OBJ_SUFFIX) $(OBJDIR)replace_functions$(OBJ_SUFFIX) $(OBJDIR)taint_func_args$(OBJ_SUFFIX) $(OBJDIR)routine_graph$(OBJ_SUFFIX) $(OBJDIR)basic_block$(OBJ_SUFFIX) $(OBJDIR)taint_handling$(OBJ_SUFFIX)  $(OBJDIR)syscall_functions$(OBJ_SUFFIX)
+	$(LINKER) $(TOOL_LDFLAGS_NOOPT) $(LINK_EXE)$@ $(^:%.h=) $(TOOL_LPATHS) $(TOOL_LIBS)
